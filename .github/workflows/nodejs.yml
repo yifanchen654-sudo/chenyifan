@@ -1,11 +1,20 @@
-name: 测试CI
+name: Node.js CI
 on:
   push:
     branches: [ main ]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./express-jest-example-master-for-download
     steps:
-      - name: 运行成功
-        run: echo "✅ GitHub Actions 运行成功！"
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+      - run: npm run coverage
